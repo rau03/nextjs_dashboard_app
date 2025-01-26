@@ -57,11 +57,11 @@ export async function createInvoice(prevState: State, formData: FormData) {
   // Insert data into the database
   try {
     await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-    `;
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
   } catch (error) {
-    // If a database error occurs, return a more specific error.
+    console.error("Database error in createInvoice:", error); // Log the error
     return {
       message: "Database Error: Failed to Create Invoice.",
     };
@@ -95,11 +95,12 @@ export async function updateInvoice(
 
   try {
     await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `;
   } catch (error) {
+    console.error("Database error in updateInvoice:", error); // Log the error
     return { message: "Database Error: Failed to Update Invoice." };
   }
 
